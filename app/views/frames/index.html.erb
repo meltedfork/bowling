@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Frames</h1>
+
+<div id="frames">
+  <% @frames.each do |frame| %>
+    <%= render frame %>
+    <p>
+      <%= link_to "Show this frame", frame %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New frame", new_frame_path %>

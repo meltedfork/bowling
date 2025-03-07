@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @frame %>
+
+<div>
+  <%= link_to "Edit this frame", edit_frame_path(@frame) %> |
+  <%= link_to "Back to frames", frames_path %>
+
+  <%= button_to "Destroy this frame", @frame, method: :delete %>
+</div>
