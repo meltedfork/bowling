@@ -4,10 +4,16 @@ class FramesController < ApplicationController
   # GET /frames or /frames.json
   def index
     @frames = Frame.all
+
+    respond_to do |format|
+      format.html  # index.html.erb
+      format.json  { render :json => @frames }
+    end
   end
 
   # GET /frames/1 or /frames/1.json
   def show
+    @frame = Frame.find(params[:id])
   end
 
   # GET /frames/new

@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_06_233751) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_07_010556) do
   create_table "frames", force: :cascade do |t|
-    t.integer "frame_number"
-    t.integer "roll_number"
-    t.string "pins_down"
+    t.integer "frame_number", null: false
+    t.integer "roll_number", null: false
+    t.string "pins_down", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
