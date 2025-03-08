@@ -10,13 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_07_010556) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_08_012455) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "frames", force: :cascade do |t|
-    t.integer "frame_number", null: false
-    t.integer "roll_number", null: false
-    t.string "pins_down", null: false
+    t.integer "frame_number"
+    t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "rolls", force: :cascade do |t|
+    t.integer "roll_number"
+    t.integer "pins_down"
+    t.string "kind"
+    t.boolean "bonus"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "frame_id"
+    t.index ["frame_id"], name: "index_rolls_on_frame_id"
+  end
+
+  add_foreign_key "rolls", "frames"
 end

@@ -5,13 +5,25 @@
   </p>
 
   <p>
-    <strong>Roll number:</strong>
-    <%= frame.roll_number %>
+    <strong>Score:</strong>
+    <%= frame.score %>
   </p>
 
-  <p>
-    <strong>Pins down:</strong>
-    <%= frame.pins_down %>
-  </p>
-
+  <div class="rolls">
+    <h3>Rolls:</h3>
+    <% frame.rolls.each do |roll| %>
+      <p>
+        <strong>Roll number:</strong>
+        <%= roll.roll_number %>
+      </p>
+      <p>
+        <strong>Pins down:</strong>
+        <%= roll.pins_down %>
+      </p>
+      <p>
+        <strong>Kind:</strong>
+        <%= roll.kind %>
+      </p>
+    <% end %>
+  </div>
 </div>
