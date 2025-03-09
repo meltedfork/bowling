@@ -12,10 +12,11 @@ RSpec.describe FramesController, type: :routing do
 
     it "routes to #show" do
       expect(get: "/frames/1").to route_to("frames#show", id: "1")
+
     end
 
     it "routes to #edit" do
-      expect(get: "/frames/1/edit").to route_to("frames#edit", id: "1")
+      expect(get: "/frames/1/edit").not_to be_routable
     end
 
 
@@ -24,15 +25,15 @@ RSpec.describe FramesController, type: :routing do
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/frames/1").to route_to("frames#update", id: "1")
+      expect(put: "/frames/1").not_to be_routable
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/frames/1").to route_to("frames#update", id: "1")
+      expect(patch: "/frames/1").not_to be_routable
     end
 
     it "routes to #destroy" do
-      expect(delete: "/frames/1").to route_to("frames#destroy", id: "1")
+      expect(delete: "/frames/1").not_to be_routable
     end
   end
 end

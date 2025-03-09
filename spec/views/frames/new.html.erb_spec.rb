@@ -4,8 +4,7 @@ RSpec.describe "frames/new", type: :view do
   before(:each) do
     assign(:frame, Frame.new(
       frame_number: 1,
-      roll_number: 1,
-      pins_down: "MyString"
+      score: 2
     ))
   end
 
@@ -13,12 +12,8 @@ RSpec.describe "frames/new", type: :view do
     render
 
     assert_select "form[action=?][method=?]", frames_path, "post" do
-
       assert_select "input[name=?]", "frame[frame_number]"
-
-      assert_select "input[name=?]", "frame[roll_number]"
-
-      assert_select "input[name=?]", "frame[pins_down]"
+      assert_select "input[name=?]", "frame[score]"
     end
   end
 end

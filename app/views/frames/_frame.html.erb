@@ -1,13 +1,15 @@
 <div id="<%= dom_id frame %>">
-  <p>
-    <strong>Frame number:</strong>
-    <%= frame.frame_number %>
-  </p>
 
-  <p>
-    <strong>Score:</strong>
-    <%= frame.score %>
-  </p>
+<table>
+  <tr>
+    <th>Frame </th>
+    <th>Score</th>
+  </tr>
+  <tr>
+    <td><%= frame.frame_number %></td>
+     <td><%= frame.score %></td>
+  </tr>
+</table>
 
   <div class="rolls">
     <h3>Rolls:</h3>

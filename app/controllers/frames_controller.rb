@@ -1,5 +1,5 @@
 class FramesController < ApplicationController
-  before_action :set_frame, only: %i[ show edit update destroy ]
+  before_action :set_frame, only: %i[ show ]
 
   # GET /frames or /frames.json
   def index
@@ -22,8 +22,8 @@ class FramesController < ApplicationController
   end
 
   # GET /frames/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /frames or /frames.json
   def create
@@ -41,27 +41,27 @@ class FramesController < ApplicationController
   end
 
   # PATCH/PUT /frames/1 or /frames/1.json
-  def update
-    respond_to do |format|
-      if @frame.update(frame_params)
-        format.html { redirect_to @frame, notice: "Frame was successfully updated." }
-        format.json { render :show, status: :ok, location: @frame }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @frame.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   respond_to do |format|
+  #     if @frame.update(frame_params)
+  #       format.html { redirect_to @frame, notice: "Frame was successfully updated." }
+  #       format.json { render :show, status: :ok, location: @frame }
+  #     else
+  #       format.html { render :edit, status: :unprocessable_entity }
+  #       format.json { render json: @frame.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /frames/1 or /frames/1.json
-  def destroy
-    @frame.destroy!
+  # def destroy
+  #   @frame.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to frames_path, status: :see_other, notice: "Frame was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
+  #   respond_to do |format|
+  #     format.html { redirect_to frames_path, status: :see_other, notice: "Frame was successfully destroyed." }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
