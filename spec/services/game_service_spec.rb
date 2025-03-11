@@ -1,65 +1,80 @@
 require "rails_helper"
 
 RSpec.describe GameService do
-  let(:game_service) { GameService.new } # current_frame = 1, current_roll = 1, score = 0, active_turn
+  let(:game_service) { GameService.new }
 
   describe "roll" do
     let(:first_pins_down) { 5 }
     let(:second_pins_down) { 2 }
 
-    it "adds pins_down to current_roll" do
+    it "adds pins_down to active_turn" do
       game_service.roll(first_pins_down)
-
-      active_turn = Frame.find_by(frame_number: 1).rolls.first
+      active_turn = game_service.frame.rolls.first
 
       expect(active_turn.roll_number).to eq(1)
       expect(active_turn.pins_down).to eq(5)
 
+      game_service.roll(second_pins_down)
+      active_turn = game_service.frame.rolls.last
 
-      # active_turn.pins_down  = game_service.roll(second_pins_down)
-      # expect(current_roll.roll_number).to eq(2)
-      # expect(current_roll.pins_down).to eq(2)
+      expect(active_turn.roll_number).to eq(2)
+      expect(active_turn.pins_down).to eq(2)
     end
 
-    context "when rolls spare" do
+    context "check_for_bonus when rolls spare" do
       let(:second_pins_down) { 5 }
 
-      it "checks for spare bonus" do
+      it "assigns a spare bonus" do
         game_service.roll(first_pins_down)
-        game_rolls = game_service.roll(second_pins_down)
+        previous_turn = game_service.frame.rolls.first
 
-        expect(game_rolls).to eq({1=>[5, 5]})
-        expect(game_service.check_for_bonus).to eq("spare")
+        game_service.roll(second_pins_down)
+        active_turn = game_service.frame.rolls.last
+
+        expect(active_turn.kind).to eq("spare")
       end
     end
 
-    context "when rolls strike" do
+    context "check_for_bonus when rolls strike" do
       let(:first_pins_down) { 10 }
 
-      it "checks for strike bonus" do
-        game_rolls = game_service.roll(first_pins_down)
+      it "assigns a strike bonus" do
+        game_service.roll(first_pins_down)
+        active_turn = game_service.frame.rolls.first
 
-        expect(game_rolls).to eq({1=>[10]})
-        expect(game_service.check_for_bonus).to eq("strike")
+        expect(active_turn.pins_down).to eq(10)
+        expect(active_turn.kind).to eq("strike")
       end
     end
 
     context "when no bonus roll is earned" do
       it "sets bonus to false" do
-        game_rolls = game_service.roll(first_pins_down)
-        game_rolls = game_service.roll(second_pins_down)
+        game_service.roll(first_pins_down)
+        previous_turn = game_service.frame.rolls.first
 
-         expect(game_rolls).to eq({1=>[5, 2]})
-         expect(game_service.check_for_bonus).to eq(false)
+        game_service.roll(second_pins_down)
+        active_turn = game_service.frame.rolls.last
+
+        expect(previous_turn.pins_down + active_turn.pins_down).not_to eq(10)
+        expect(previous_turn.kind).to eq("regular")
+        expect(active_turn.kind).to eq("regular")
       end
     end
+    # add 4 rolls to check bonus logic
   end
 
-  describe "spare_bonus" do
-    let(:game_rolls) {1=>[8, 2]}
+  describe "get_current_score" do
+    it "uses updated scores from calculate_bonus to return total score" do
 
-    it "calculates the bonus roll to add to score" do
+      game_service.roll(5)
+      game_service.roll(3)
+      game_service.roll(10)
+      game_service.roll(2)
+      game_service.roll(4)
 
+      total_score = game_service.get_current_score
+
+      expect(total_score).to eq(30)
     end
   end
 end
