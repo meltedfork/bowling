@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe GameService do
-  let(:game_service) { GameService.new }
+  let(:game_service) { GameService.new(1) }
 
   describe "roll" do
     let(:first_pins_down) { 5 }

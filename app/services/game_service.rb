@@ -1,8 +1,9 @@
 class GameService
   attr_accessor :frame
+  attr_reader :current_frame
 
-  def initialize
-    @current_frame = 1
+  def initialize(current_frame)
+    @current_frame = current_frame
     @current_roll = 1
     @active_turn
     @previous_turn
@@ -20,7 +21,8 @@ class GameService
 
     check_for_bonus
     calculate_bonus
-    get_current_score
+
+    [@current_frame, get_current_score]
   end
 
   def check_for_bonus

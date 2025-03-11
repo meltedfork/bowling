@@ -1,0 +1,33 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Time to Bowl</h1>
+
+<%= render "form" %>
+
+<div>
+  <h2>Current Frame: <%= @current_frame %></h2>
+  <h2>Total Score: <%= @total_score %></h2>
+</div>
+<table>
+    <thead>
+      <tr>
+        <th>Frame</th>
+        <th>Roll</th>
+        <th>Roll Points</th>
+        <th>Roll</th>
+        <th>Roll Points</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <% @frames.each do |frame| %>
+        <tr>
+          <td><%= frame.frame_number %></td>
+          <% frame.rolls.each do |roll| %>
+            <td><%= roll.roll_number %></td>
+            <td><%= roll.pins_down %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

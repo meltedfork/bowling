@@ -1,0 +1,22 @@
+<%= form_with(url: games_path, method: :post, local: true) do |f| %>
+   <% if flash[:error].present? %>
+    <div class="error-message" style="color: red; margin-bottom: 10px;">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :pins_down, "Pins knocked down:" %>
+    <%= f.number_field :pins_down,
+                       in: 0..10,
+                       required: true,
+                       class: "pins-input" %>
+    <% if @frame&.errors&.include?(:pins_down) %>
+      <span class="error" style="color: red;">
+        <%= @frame.errors.full_messages_for(:pins_down).join(", ") %>
+      </span>
+    <% end %>
+  </div>
+
+  <%= f.submit "Record Roll", class: "submit-button" %>
+<% end %>
