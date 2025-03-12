@@ -10,9 +10,12 @@ default: &default
 
 development:
   <<: *default
+  database: bowling_development
 
 test:
   <<: *default
+  database: bowling_test
+
 
 production:
   <<: *default

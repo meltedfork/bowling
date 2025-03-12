@@ -1,12 +1,10 @@
 class GameService
-  attr_accessor :frame
-  attr_reader :current_frame
+  attr_reader :current_frame, :current_roll
 
-  def initialize(current_frame)
+  def initialize(current_frame, current_roll)
     @current_frame = current_frame
-    @current_roll = 1
+    @current_roll = current_roll
     @active_turn
-    @previous_turn
     @score = 0
   end
 
@@ -21,34 +19,38 @@ class GameService
 
     check_for_bonus
     calculate_bonus
-
-    [@current_frame, get_current_score]
+    get_current_score
   end
 
   def check_for_bonus
     if @active_turn.roll_number == 1 && @active_turn.pins_down == 10
+      Rails.logger.info("********** STRIKE conditional")
+      Rails.logger.info("current_frame: #{@current_frame}, current_roll: #{@current_roll}")
       @active_turn.frame.update!(score: 10)
       @active_turn.update!(bonus: true, kind: "strike")
-      @current_frame += 1
+      @current_frame += 1 unless @current_frame == 10
 
-    elsif @previous_turn.present? && @previous_turn.pins_down + @active_turn.pins_down == 10
+    elsif @frame.rolls.count > 0 && @frame.rolls.first.pins_down + @active_turn.pins_down == 10
+      Rails.logger.info("********** SPARE conditional")
+      Rails.logger.info("current_frame: #{@current_frame}, current_roll: #{@current_roll}")
       @active_turn.frame.update!(score: 10)
       @active_turn.update!(bonus: true, kind: "spare")
-      @current_frame += 1
+      @current_frame += 1 unless @current_frame == 10
       @current_roll = 1
-      @previous_turn = nil
 
-    elsif @previous_turn.present? && @previous_turn.pins_down + @active_turn.pins_down < 10
+    elsif @frame.rolls.count > 0 && @frame.rolls.first.pins_down + @active_turn.pins_down < 10
+      Rails.logger.info("********** REGULAR conditional")
+      Rails.logger.info("current_frame: #{@current_frame}, current_roll: #{@current_roll}")
       @active_turn.frame.update!(score: (@frame.score + @active_turn.pins_down))
       @active_turn.update!(bonus: false, kind: "regular")
       @current_frame += 1
       @current_roll = 1
-      @previous_turn = nil
 
     else
+      Rails.logger.info("********** FIRST ROLL conditional")
+      Rails.logger.info("current_frame: #{@current_frame}, current_roll: #{@current_roll}")
       @active_turn.frame.update!(score: @active_turn.pins_down)
       @active_turn.update!(bonus: false, kind: "regular")
-      @previous_turn = @active_turn
       @current_roll += 1
     end
 

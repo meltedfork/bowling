@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe GameService do
-  let(:game_service) { GameService.new(1) }
+  let(:game_service) { GameService.new(1, 1) }
 
   describe "roll" do
     let(:first_pins_down) { 5 }
@@ -60,7 +60,6 @@ RSpec.describe GameService do
         expect(active_turn.kind).to eq("regular")
       end
     end
-    # add 4 rolls to check bonus logic
   end
 
   describe "get_current_score" do
